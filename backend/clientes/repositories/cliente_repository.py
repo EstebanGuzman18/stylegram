@@ -30,6 +30,20 @@ class ClienteRepository:
             return Cliente.objects.get(id_cliente = id)
         except Cliente.DoesNotExist:
             return None
+    
+    @staticmethod
+    def obtener_por_correo(correo):
+        try:
+            return Cliente.objects.get(correo_electronico = correo)
+        except:
+            return None
+        
+    @staticmethod
+    def obtener_por_whatsapp(whatsapp):
+        try:
+            return Cliente.objects.get(whatsapp = whatsapp)    
+        except:
+            return None
         
     @staticmethod
     def actualizar_cliente(id_cliente, nombre=None, correo=None, password=None, whatsapp=None, ciudad=None, foto_url=None):
