@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stylegram - Registro</title>
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Peralta&family=Platypi:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
+
+    <!-- Tailwind CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Tailwind theme personalizado -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'stylegram-primary': '#00ccc7',
+                        'stylegram-secondary': '#ffffff',
+                        'stylegram-tertiary': '#000000'
+                    },
+                    fontFamily: {
+                        peralta: ['Peralta', 'serif'],
+                        platypi: ['Platypi', 'serif']
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+
+<body class="bg-stylegram-secondary">
+
+<header class="bg-stylegram-primary p-4 flex justify-center">
+    <h1 class="font-peralta text-white text-2xl md:text-3xl xl:text-4xl">
+        Registrar cliente
+    </h1>
+</header>
+
+{% if mensaje %}
+<script>alert("{{ mensaje|escapejs }}"); </script>
+{% endif %}
+
+<main>
+<form id="registro"
+      method="post"
+      class="p-8 pt-20 pb-28 md:flex md:gap-12 lg:gap-24">
+
+      {% csrf_token %}
+
+    <!-- Columna izquierda -->
+    <div class="md:w-1/2">
+        <label class="font-serif">Nombre</label>
+        <input type="text"
+               name="nombre"
+               class="border w-full rounded-lg mb-5
+                      focus:outline-none focus:ring-1 focus:ring-stylegram-primary
+                      px-2 py-1"
+               maxlength="40" required>
+
+        <label class="font-serif">Ciudad</label>
+        <select name="ciudad"
+                class="border w-full rounded-lg mb-5
+                       focus:outline-none focus:ring-1 focus:ring-stylegram-primary
+                       px-2 py-1"
+                required>
+            <option value="">Seleccione</option>
+            <option>Bogotá</option>
+            <option>Medellín</option>
+            <option>Cali</option>
+            <option>Pasto</option>
+            <option>Sandoná</option>
+        </select>
+
+        <label class="font-serif">WhatsApp</label>
+        <input type="tel"
+               name="whatsapp"
+               class="border w-full rounded-lg mb-5
+                      focus:outline-none focus:ring-1 focus:ring-stylegram-primary
+                      px-2 py-1"
+               maxlength="20" required>
+    </div>
+
+    <!-- Columna derecha -->
+    <div class="md:w-1/2">
+        <label class="font-serif">Correo electrónico</label>
+        <input type="email"
+               name="email"
+               class="border w-full rounded-lg mb-5
+                      focus:outline-none focus:ring-1 focus:ring-stylegram-primary
+                      px-2 py-1"
+               maxlength="254" required>
+
+        <label class="font-serif">Contraseña</label>
+        <input type="password"
+               name="password"
+               class="border w-full rounded-lg mb-5
+                      focus:outline-none focus:ring-1 focus:ring-stylegram-primary
+                      px-2 py-1"
+               maxlength="128" required>
+
+        <label class="font-serif">Confirmar contraseña</label>
+        <input type="password"
+               name="confirm_password"
+               class="border w-full rounded-lg mb-5
+                      focus:outline-none focus:ring-1 focus:ring-stylegram-primary
+                      px-2 py-1"
+               maxlength="128" required>
+    </div>
+
+</form>
+
+<!-- Botón centrado -->
+<div class="flex flex-col items-center mb-8">
+    <button type="submit"
+            form="registro"
+            class="bg-stylegram-tertiary text-white font-platypi
+                   rounded-lg w-32 h-9
+                   hover:bg-gray-400 hover:text-black transition mb-2">
+        Registrarse
+    </button>
+
+    <a href="#"
+       class="text-sm text-gray-700 underline hover:text-stylegram-primary transition">
+        Ya tengo una cuenta
+    </a>
+</div>
+
+</main>
+
+</body>
+</html>
