@@ -1,1 +1,11 @@
+@import url('https://fonts.googleapis.com/css2?family=Peralta&family=Platypi:ital,wght@0,300..800;1,300..800&display=swap');
 @import 'tailwindcss';
+
+@theme {
+    --color-stylegram-primary: #00ccc7;
+    --color-stylegram-secondary: #ffffff;
+    --color-stylegram-tertiary: #000000;
+
+    --font-peralta: "Peralta", serif;
+    --font-platypi: "Platypi", serif;
+}
