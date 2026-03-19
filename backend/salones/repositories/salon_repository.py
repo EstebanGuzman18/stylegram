@@ -38,6 +38,20 @@ class SalonRepository:
             return Salon.objects.get(id_salon=id_salon)
         except Salon.DoesNotExist:
             return None
+    
+    @staticmethod
+    def obtener_por_correo(correo):
+        try:
+            return Salon.objects.get(correo_electronico = correo)
+        except Salon.DoesNotExist:
+            return None
+        
+    @staticmethod
+    def obtener_por_whatsapp(whatsapp):
+        try:
+            return Salon.objects.get(whatsapp = whatsapp)
+        except Salon.DoesNotExist:
+            return None
         
     @staticmethod
     def actualizar_salon(id_salon, nombre_estilista=None, nombre_salon=None, correo=None, password=None, whatsapp=None, ciudad=None, direccion=None, publico=None, opcion_compra=None, horario=None, descripcion=None, servicios=None, foto_url=None):
