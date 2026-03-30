@@ -54,6 +54,18 @@ class SalonRepository:
             return None
         
     @staticmethod
+    def buscar_por_nombre_salon(palabra):
+        return Salon.objects.filter(nombre_salon__icontains=palabra)
+
+    @staticmethod
+    def buscar_por_nombre_estilista(palabra):
+        return Salon.objects.filter(nombre_estilista__icontains=palabra)
+
+    @staticmethod
+    def buscar_por_servicios(palabra):
+        return Salon.objects.filter(servicios__icontains=palabra)
+        
+    @staticmethod
     def actualizar_salon(id_salon, nombre_estilista=None, nombre_salon=None, correo=None, password=None, whatsapp=None, ciudad=None, direccion=None, publico=None, opcion_compra=None, horario=None, descripcion=None, servicios=None, foto_url=None):
         salon = SalonRepository.obtener_por_id(id_salon)
         if salon:
@@ -62,7 +74,7 @@ class SalonRepository:
                     salon.nombre_estilista = nombre_estilista
                 if nombre_salon is not None and nombre_salon!=salon.nombre_salon:
                     salon.nombre_salon = nombre_salon
-                if correo is not None and nombre_estilista!=salon.nombre_estilista:
+                if nombre_estilista is not None and nombre_estilista!=salon.nombre_estilista:
                     salon.nombre_estilista = nombre_estilista
                 if correo is not None and correo!=salon.correo_electronico:
                     salon.correo_electronico = correo
