@@ -1,4 +1,5 @@
 import { useState, useRef } from "react"
+import { useNavigate } from "react-router-dom"
 import { TagCamposRegistro } from "../../components/TagCamposRegistro"
 import { HeaderRegistro } from "../../components/Header"
 import { FotoPerfil } from "../../components/FotoPerfil"
@@ -34,6 +35,7 @@ export default function RegistroSalon() {
     const cambiarHorario = (e) => setHorario(e.target.value);
     const cambiarDescripcion = (e) => setDescripcion(e.target.value);
 
+    const navigate = useNavigate();
     const handleDatos = async(e) => {
         e.preventDefault()
         const datos = {nombre_estilista: nombreEstilista, nombre_salon: nombreSalon, correo: correo, password: password, confirm_password: confirmPassword, whatsapp: whatsapp, ciudad: ciudad, direccion: direccion, publico: publico, opcion_compra: opcionCompra, horario: horario, descripcion: descripcion, servicios: servicios}
@@ -44,7 +46,8 @@ export default function RegistroSalon() {
             const data = await respuesta.json();
 
             if (respuesta.ok) {
-                alert(data.mensaje);
+                localStorage.setItem("user", JSON.stringify(data.user));
+                navigate("/salon-home");
             }
             else {
                 alert(data.error);

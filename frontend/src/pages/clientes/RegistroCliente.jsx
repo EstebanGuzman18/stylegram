@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { AccionesRegistro } from "../../components/AccionesRegistro";
 import { HeaderRegistro } from "../../components/Header";
 import { FotoPerfil } from "../../components/FotoPerfil";
@@ -18,6 +19,7 @@ export default function RegistroCliente() {
     const cambiarPassword = (e) => setPassword(e.target.value);
     const cambiarConfirmPassword = (e) => setConfirmPassword(e.target.value);
 
+    const navigate = useNavigate();
     const handleDatos = async (e) => {
         e.preventDefault();
         const datos = {nombre:nombre, ciudad:ciudad, whatsapp:whatsapp, correo_electronico:correo, password:password, confirm_password:confirmPassword}
@@ -28,7 +30,8 @@ export default function RegistroCliente() {
             const data = await respuesta.json();
 
             if (respuesta.ok) {
-                alert(data.mensaje);
+                localStorage.setItem("user", JSON.stringify(data.user));
+                navigate("/cliente-home");
             }
             else {
                 alert(data.error);

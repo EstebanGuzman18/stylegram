@@ -8,80 +8,89 @@ from salones.repositories.salon_repository import SalonRepository
 @api_view(['POST'])
 def registrar_salon(request):
     
-    nombre_estilista = request.data.get('nombre_estilista')
-    nombre_salon = request.data.get('nombre_salon')
-    correo = request.data.get('correo')
-    password = request.data.get('password')
-    confirm_password = request.data.get('confirm_password')
-    whatsapp = request.data.get('whatsapp')
-    ciudad = request.data.get('ciudad')
-    direccion = request.data.get('direccion')
-    publico = request.data.get('publico')
-    opcion_compra = request.data.get('opcion_compra')
-    # Campos opcionales
-    horario = request.data.get('horario') or None
-    descripcion = request.data.get('descripcion') or None
-    servicios = request.data.get('servicios') or None
-    
-    # validar campos
-    if not all([nombre_estilista, nombre_salon, ciudad, whatsapp, direccion, publico, opcion_compra ,correo, password, confirm_password]):
-        return Response({'error': 'Campos importantes no han sido llenados'}, status=400)
-    
-    # verificar contraseñas
-    if password != confirm_password:
-        return Response({'error': 'Las contraseñas no coinciden'}, status=400)
-    
-    # verificar duplicados
-    if SalonRepository.obtener_por_correo(correo):
-        return Response({'error': 'El correo electronico ya está en uso'}, status=409)
-    
-    if SalonRepository.obtener_por_whatsapp(whatsapp):
-        return Response({'error': 'El número de whatsapp ya está en uso'}, status=409)
+    try:
+        nombre_estilista = request.data.get('nombre_estilista')
+        nombre_salon = request.data.get('nombre_salon')
+        correo = request.data.get('correo')
+        password = request.data.get('password')
+        confirm_password = request.data.get('confirm_password')
+        whatsapp = request.data.get('whatsapp')
+        ciudad = request.data.get('ciudad')
+        direccion = request.data.get('direccion')
+        publico = request.data.get('publico')
+        opcion_compra = request.data.get('opcion_compra')
+        # Campos opcionales
+        horario = request.data.get('horario') or None
+        descripcion = request.data.get('descripcion') or None
+        servicios = request.data.get('servicios') or None
         
-    # crear salon
-    salon = SalonRepository.crear_salon(
-        nombre_estilista = nombre_estilista,
-        nombre_salon = nombre_salon,
-        correo = correo,
-        password = make_password(password),
-        whatsapp = whatsapp,
-        horario = horario,
-        descripcion = descripcion,
-        servicios = servicios,
-        ciudad = ciudad,
-        direccion = direccion,
-        publico = publico,
-        opcion_compra = opcion_compra,
-    )
-    
-    if salon:
-        return Response({'mensaje': f'Hola {salon.nombre_estilista}, has sido registrado con éxito',
-                        'id': salon.id_salon}, status=201)
-    
-    return Response({'error': 'No se pudo registrar el salon'}, status=500)
+        # validar campos
+        if not all([nombre_estilista, nombre_salon, ciudad, whatsapp, direccion, publico, opcion_compra ,correo, password, confirm_password]):
+            return Response({'error': 'Campos importantes no han sido llenados'}, status=400)
+        
+        # verificar contraseñas
+        if password != confirm_password:
+            return Response({'error': 'Las contraseñas no coinciden'}, status=400)
+        
+        # verificar duplicados
+        if SalonRepository.obtener_por_correo(correo):
+            return Response({'error': 'El correo electronico ya está en uso'}, status=409)
+        
+        if SalonRepository.obtener_por_whatsapp(whatsapp):
+            return Response({'error': 'El número de whatsapp ya está en uso'}, status=409)
+            
+        # crear salon
+        salon = SalonRepository.crear_salon(
+            nombre_estilista = nombre_estilista,
+            nombre_salon = nombre_salon,
+            correo = correo,
+            password = make_password(password),
+            whatsapp = whatsapp,
+            horario = horario,
+            descripcion = descripcion,
+            servicios = servicios,
+            ciudad = ciudad,
+            direccion = direccion,
+            publico = publico,
+            opcion_compra = opcion_compra,
+        )
+        
+        if salon:
+            return Response({'user': {
+                'id': salon.id_salon,
+                'nombre_salon' : salon.nombre_salon,
+                'nombre_estilista' : salon.nombre_estilista
+            }}, status=201)
+        
+        return Response({'error': 'No se pudo registrar el salon'}, status=500)
+    except Exception as e:
+        return Response({'error': 'Error al procesar la solicitud'}, status=500)
 
 @api_view(['POST'])
 def login(request):
-    # obtener datos desde React
-    correo = request.data.get('correo_electronico')
-    password = request.data.get('password')
-    
-    # validar campos
-    if not correo or not password:
-        return Response({'error': 'El correo y la contraseña son obligatorios'}, status=400)
-    
-    # buscar salon
-    salon = SalonRepository.obtener_por_correo(correo)
-    
-    # validar existencia y contraseña
-    if not salon or not check_password(password, salon.password):
-        return Response({'error': 'Correo o contraseña incorrectos'}, status=401)
-    
-    # login exitoso
-    return Response({'mensaje': f'Hola {salon.nombre_estilista}, has iniciado sesión con éxito',
-                     'id': salon.id_salon,
-                     'nombre': salon.nombre_salon,
-                     'correo': salon.correo_electronico}, status=200)
+    try:
+        # obtener datos desde React
+        correo = request.data.get('correo_electronico')
+        password = request.data.get('password')
+        
+        # validar campos
+        if not correo or not password:
+            return Response({'error': 'El correo y la contraseña son obligatorios'}, status=400)
+        
+        # buscar salon
+        salon = SalonRepository.obtener_por_correo(correo)
+        
+        # validar existencia y contraseña
+        if not salon or not check_password(password, salon.password):
+            return Response({'error': 'Correo o contraseña incorrectos'}, status=401)
+        
+        # login exitoso
+        return Response({'user': {
+            'id': salon.id_salon,
+            'nombre': salon.nombre_salon,
+            }}, status=200)
+    except Exception as e:
+        return Response({'error': 'Error al procesar la solicitud'}, status=500)
     
 # OBTENER SALON
 @api_view(['GET'])

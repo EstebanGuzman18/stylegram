@@ -7,63 +7,72 @@ from rest_framework.response import Response
 @api_view(['POST'])
 def registrar_cliente(request):
     
-    nombre = request.data.get('nombre')
-    ciudad = request.data.get('ciudad')
-    whatsapp = request.data.get('whatsapp')
-    correo = request.data.get('correo_electronico')
-    password = request.data.get('password')
-    confirm_password = request.data.get('confirm_password')
-    
-    if not all([nombre, ciudad, whatsapp, correo, password, confirm_password]):
-        return Response({'error': 'Campos importantes no han sido llenados'}, status=400)
-    
-    if password != confirm_password:
-        return Response({'error': 'Las contraseñas no coinciden'}, status=400)
-    
-    if ClienteRepository.obtener_por_correo(correo):
-        return Response({'error': 'El correo electronico ya está en uso'}, status=409)
-    
-    if ClienteRepository.obtener_por_whatsapp(whatsapp):
-        return Response({'error': 'El número de whatsapp ya está en uso'}, status=409)
+    try:
+        nombre = request.data.get('nombre')
+        ciudad = request.data.get('ciudad')
+        whatsapp = request.data.get('whatsapp')
+        correo = request.data.get('correo_electronico')
+        password = request.data.get('password')
+        confirm_password = request.data.get('confirm_password')
         
-    cliente = ClienteRepository.crear_cliente(
-        nombre=nombre,
-        correo=correo, 
-        password=make_password(password), 
-        whatsapp=whatsapp, 
-        ciudad=ciudad, 
-        foto_url=None
-    )
-    
-    if cliente:
-        return Response({
-            'mensaje': f'Hola {cliente.nombre}, has sido registrado con éxito',
-            'id': cliente.id_cliente
-        }, status=201)
-    
-    return Response({'error': 'No se pudo registrar el cliente'}, status=500)
+        if not all([nombre, ciudad, whatsapp, correo, password, confirm_password]):
+            return Response({'error': 'Campos importantes no han sido llenados'}, status=400)
+        
+        if password != confirm_password:
+            return Response({'error': 'Las contraseñas no coinciden'}, status=400)
+        
+        if ClienteRepository.obtener_por_correo(correo):
+            return Response({'error': 'El correo electronico ya está en uso'}, status=409)
+        
+        if ClienteRepository.obtener_por_whatsapp(whatsapp):
+            return Response({'error': 'El número de whatsapp ya está en uso'}, status=409)
+            
+        cliente = ClienteRepository.crear_cliente(
+            nombre=nombre,
+            correo=correo, 
+            password=make_password(password), 
+            whatsapp=whatsapp, 
+            ciudad=ciudad, 
+            foto_url=None
+        )
+        
+        if cliente:
+            return Response({
+                'user': {
+                    'id': cliente.id_cliente,
+                    'nombre': cliente.nombre
+                }
+            }, status=201)
+        
+        return Response({'error': 'No se pudo registrar el cliente'}, status=500)
+    except Exception as e:
+        return Response({'error': 'Error al procesar la solicitud'}, status=500)
 
 
 # LOGIN
 @api_view(['POST'])
 def login(request):
-    correo = request.data.get('correo_electronico')
-    password = request.data.get('password')
-    
-    if not correo or not password:
-        return Response({'error': 'El correo y la contraseña son obligatorios'}, status=400)
-    
-    cliente = ClienteRepository.obtener_por_correo(correo)
-    
-    if not cliente or not check_password(password, cliente.password):
-        return Response({'error': 'Correo o contraseña incorrectos'}, status=401)
-    
-    return Response({
-        'mensaje': f'Hola {cliente.nombre}, has iniciado sesión con éxito',
-        'id': cliente.id_cliente,
-        'nombre': cliente.nombre,
-        'correo': cliente.correo_electronico
-    }, status=200)
+    try:
+        correo = request.data.get('correo_electronico')
+        password = request.data.get('password')
+        
+        if not correo or not password:
+            return Response({'error': 'El correo y la contraseña son obligatorios'}, status=400)
+        
+        cliente = ClienteRepository.obtener_por_correo(correo)
+        
+        if not cliente or not check_password(password, cliente.password):
+            return Response({'error': 'Correo o contraseña incorrectos'}, status=401)
+        
+        return Response({
+            'mensaje': f'Hola {cliente.nombre}, has iniciado sesión con éxito',
+            'user': {
+                'id': cliente.id_cliente,
+                'nombre': cliente.nombre,
+            }
+        }, status=200)
+    except Exception as e:
+        return Response({'error': 'Error al procesar la solicitud'}, status=500)
 
 
 # OBTENER CLIENTE

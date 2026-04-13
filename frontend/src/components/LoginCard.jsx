@@ -1,9 +1,10 @@
-import { Link } from "react-router-dom"
+import { Link,useNavigate } from "react-router-dom"
 import { useState } from "react"
 {/**Este componente tiene los campos para iniciar sesion, se reutilizará tanto en el login del cliente como del salón*/}
 
-export function LoginCard({linkRegistro, linkOlvideContraseña, rutaFetch}) {
+export function LoginCard({linkRegistro, rutaFetch, linkHome}) {
     const [correo, setCorreo] = useState("")
+    const navigate = useNavigate()
     const [password, setPassword] = useState("")
 
     const cambiarCorreo = (e) => {
@@ -21,7 +22,8 @@ export function LoginCard({linkRegistro, linkOlvideContraseña, rutaFetch}) {
             )
             const data = await respuesta.json();
             if (respuesta.ok) {
-                alert(data.mensaje);
+                localStorage.setItem("user", JSON.stringify(data.user));
+                navigate(linkHome);
             }
             else {
                 alert(data.error);
@@ -41,7 +43,6 @@ export function LoginCard({linkRegistro, linkOlvideContraseña, rutaFetch}) {
                 <label htmlFor="contraseña" className="text-lg font-serif">Contraseña</label>
                 <input type="password" id="contraseña" value={password} onChange={cambiarContraseña} className="mt-1 bg-white rounded-md mb-8 focus:outline-none focus:ring-2 focus:ring-teal-700 px-2 py-1" maxLength="20" required/>
                 <button type="submit" className="bg-black text-white rounded-md w-30 py-1 hover:bg-gray-300 hover:text-black transition self-center mb-3 font-platypi cursor-pointer">Entrar</button>
-                <Link to={linkOlvideContraseña} className="self-center underline text-sm text-gray-800 hover:text-gray-100">Olvidé mi contraseña</Link>
                 <Link to={linkRegistro} className="self-center underline text-sm text-gray-800 hover:text-gray-100">Registrarme</Link>
             </form>
     
