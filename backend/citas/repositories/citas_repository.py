@@ -69,3 +69,11 @@ class CitasRepository:
             cita.save()
             return cita
         return None
+    
+    @staticmethod
+    def eliminar_cita(id_cita):
+        cita = CitasRepository.obtener_por_id(id_cita)
+        if cita:
+            cita.delete()
+            return True
+        return False

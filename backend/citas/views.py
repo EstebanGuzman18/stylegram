@@ -102,3 +102,13 @@ def reagendar_cita(request, id_cita):
     cita = CitasRepository.reagendar_cita(id_cita, nueva_fecha)
 
     return Response({'mensaje': 'Cita reagendada correctamente'}, status=200)
+
+# Eliminar cita
+@api_view(['DELETE'])
+def eliminar_cita(request, id_cita):
+    resultado = CitasRepository.eliminar_cita(id_cita)
+
+    if resultado:
+        return Response({'mensaje': 'Cita eliminada correctamente'}, status=200)
+    else:
+        return Response({'error': 'Cita no encontrada'}, status=404)

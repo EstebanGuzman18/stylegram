@@ -4,6 +4,9 @@ from . import views
 urlpatterns = [
     # Crear cita
     path('solicitar/', views.crear_cita),
+    
+    # Eliminar cita
+    path('<int:id_cita>/eliminar/', views.eliminar_cita),
 
     # Obtener citas
     path('<int:id_salon>/salones/', views.citas_salon),
