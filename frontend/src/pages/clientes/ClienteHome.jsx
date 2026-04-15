@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import ItemCard from "../../components/ItemCard";
+import { ItemCard } from "../../components/ItemCard";
 
 export default function ClienteHome() {
     // obtener las citas confirmadas del cliente
@@ -47,21 +47,6 @@ export default function ClienteHome() {
         buscarPendientes();
     }, []);
 
-    //obtener los datos del salon para mostrar su nombre, direccion e imagen en la tarjeta de la cita
-    const [salon, setSalon] = useState({});
-    const cambiarSalon = async (idSalon) => {
-        try {
-            const salon = await fetch(`http://127.0.0.1:8000/api/salones/${idSalon}`);
-            const salonData = await salon.json();
-            if (salon.ok) {
-                setSalon(salonData);
-            }
-        }
-        catch (error) {
-            console.error("Error: ", error);
-        }
-    }
-
     //eliminar cita pendiente
     const eliminarCita = async (id) => {
     try {
@@ -97,8 +82,7 @@ export default function ClienteHome() {
             <h3 className="font-platypi font-semibold pb-2">Citas confirmadas</h3>
             {/**Aquí iran las citas que han sido confirmadas por el salon*/}
             {citasConfirmadas.map(cita => (
-                cambiarSalon(cita.salon),
-                <ItemCard key={cita.id} imagenItem={salon.foto_url} nombre={salon.nombre_salon} descripcion={cita.servicio + " | " + salon.direccion}>{formatoFechaHora(cita.fecha_hora)}</ItemCard>
+                <ItemCard key={cita.id_cita} imagenItem={cita.salon.foto_url} nombre={cita.salon.nombre_salon} descripcion={cita.servicio + " | " + cita.salon.direccion + ", " + cita.salon.ciudad}>{formatoFechaHora(cita.fecha_hora)}</ItemCard>
             ))}
         </section>
 
@@ -106,10 +90,10 @@ export default function ClienteHome() {
             <h3 className="font-platypi font-semibold pb-2">Citas pendientes</h3>
             {/**Aquí iran las citas que fueron solicitadas pero no han recivido respuesta*/}
             {citasPendientes.map(cita => (
-                <ItemCard key={cita.id_cita} imagenItem={salon.foto_url} nombre={salon.nombre_salon} descripcion={cita.servicio + " | " + salon.direccion}>
+                <ItemCard key={cita.id_cita} imagenItem={cita.salon.foto_url} nombre={cita.salon.nombre_salon} descripcion={cita.servicio + " | " + cita.salon.direccion + ", " + cita.salon.ciudad}>
                     {formatoFechaHora(cita.fecha_hora)}
                     <button onClick={() => eliminarCita(cita.id_cita)} className="text-xl text-white bg-red-500 hover:bg-red-600 py-2 px-4 rounded-full ml-8 cursor-pointer">X</button>
-                    </ItemCard>
+                </ItemCard>
             ))}
 
         </section>
