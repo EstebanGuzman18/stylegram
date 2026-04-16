@@ -4,7 +4,7 @@ import imagenDefecto from "../assets/icons/foto_perfil.png";
 //este componente se usará para representar cada elemento del sistema ya sea salon, cita o producto
 //tiene una imagen, un nombre, una descripción y un espacio para botones de acción (children)
 
-export default function ItemCard({ imagenItem, nombre, descripcion, children }) {
+export function ItemCard({ imagenItem, nombre, descripcion, children }) {
     const [imagen, setImagen] = useState(imagenDefecto);
     useEffect(() => {
         if (imagenItem) {
@@ -12,7 +12,7 @@ export default function ItemCard({ imagenItem, nombre, descripcion, children }) 
         }
     }, [imagenItem]);
     return (
-        <div className="flex items-center gap-4 p-4 border rounded-xl shadow-sm bg-white">
+        <div className="flex items-center gap-4 p-2 mb-2 border rounded-xl shadow-sm bg-white">
 
             {/*  Imagen */}
             <div className="w-20 h-20 flex shrink-0">

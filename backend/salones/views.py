@@ -211,7 +211,9 @@ def buscar_salones(request):
             'nombre_salon': salon.nombre_salon,
             'nombre_estilista': salon.nombre_estilista,
             'ciudad': salon.ciudad,
-            'foto_url': salon.foto_url
+            'direccion': salon.direccion,
+            'foto_url': salon.foto_url,
+            'publico': salon.publico_objetivo
         })
 
     return Response(data, status=200)

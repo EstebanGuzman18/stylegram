@@ -4,17 +4,17 @@ import { useState } from "react"
 se encuentra activa.*/}
 
 export function ToggleTabs({nombreSeccion1, nombreSeccion2, seccion1, seccion2}) {
-    const [seccion, setSeccion] = useState(seccion1)
+    const [seccion, setSeccion] = useState(1)
     const [estiloBoton1, setEstiloBoton1] = useState("bg-stylegram-primary text-white")
     const [estiloBoton2, setEstiloBoton2] = useState("bg-gray-300 text-black")
 
     const cambiarBoton1 = () => {
-        setSeccion(seccion1)
+        setSeccion(1)
         setEstiloBoton1("bg-stylegram-primary text-white")
         setEstiloBoton2("bg-gray-300 text-black")
     }
     const cambiarBoton2 = () => {
-        setSeccion(seccion2)
+        setSeccion(2)
         setEstiloBoton1("bg-gray-300 text-black")
         setEstiloBoton2("bg-stylegram-primary text-white")
     }
@@ -30,7 +30,7 @@ export function ToggleTabs({nombreSeccion1, nombreSeccion2, seccion1, seccion2})
             </button>
         </div>
         <section className="mt-8 border-t pt-5">
-            {seccion}
+            {seccion === 1 ? seccion1 : seccion2}
         </section>
         </>
     )
