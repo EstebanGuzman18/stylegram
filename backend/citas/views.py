@@ -2,6 +2,9 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from .serializers import CitaSerializer
 from citas.repositories.citas_repository import CitasRepository
+from salones.repositories.salon_repository import SalonRepository
+from clientes.repositories.cliente_repository import ClienteRepository
+
 
 
 #  Crear cita
@@ -14,12 +17,32 @@ def crear_cita(request):
         return Response(serializer.errors, status=400)
 
     data = serializer.validated_data
+    
+    #  VALIDACIÓN id cliente
+    cliente_id = request.data.get('cliente')
+    if not cliente_id:
+        return Response({'error': 'El campo cliente es obligatorio'}, status=400)
+
+    cliente = ClienteRepository.obtener_por_id(cliente_id)
+
+    if not cliente:
+        return Response({'error': 'El cliente no existe'}, status=400)
+
+    #  VALIDACIÓN id salon
+    salon_id = request.data.get('salon')
+    if not salon_id:
+        return Response({'error': 'El campo salon es obligatorio'}, status=400)
+
+    salon = SalonRepository.obtener_por_id(salon_id)
+    
+    if not salon:
+        return Response({'error': 'El salon no existe'}, status=400)
 
     cita = CitasRepository.crear_cita(
         servicio=data.get('servicio'),
         fecha_hora=data.get('fecha_hora'),
-        salon=data.get('salon').id_salon,
-        cliente=data.get('cliente').id_cliente
+        salon=salon.id_salon,
+        cliente=cliente.id_cliente
     )
 
     if not cita:

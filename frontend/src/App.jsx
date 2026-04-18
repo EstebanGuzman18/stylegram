@@ -17,6 +17,7 @@ import Buscar from './pages/clientes/Buscar'
 import SalonesFavoritos from './pages/clientes/SalonesFavoritos'
 import InfoSalon from './pages/clientes/InfoSalon'
 import InfoProducto from './pages/clientes/InfoProducto'
+import SolicitarCita from './pages/clientes/SolicitarCita'
 
 
 const router = createBrowserRouter([
@@ -38,7 +39,8 @@ const router = createBrowserRouter([
     {path:'/buscar', element:<Buscar/>, handle:{titulo:"Buscar"}},
     {path:'/favoritos', element:<SalonesFavoritos/>, handle:{titulo:"Salones favoritos"}},
     {path:'/info-salon/:id', element:<InfoSalon/>, handle:{titulo:"Información del salón"}},
-    {path:'/info-producto/:id', element:<InfoProducto/>, handle:{titulo:"Información del producto"}}
+    {path:'/info-producto/:id', element:<InfoProducto/>, handle:{titulo:"Información del producto"}},
+    {path:'/solicitar-cita/:idSalon', element:<SolicitarCita/>, handle:{titulo:"Solicitar cita"}}
   ]}
 ])
 

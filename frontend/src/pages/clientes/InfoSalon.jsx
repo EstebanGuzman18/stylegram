@@ -1,12 +1,12 @@
 import { useEffect, useState } from 'react'
-import { useNavigate, useParams } from 'react-router-dom'
+import { useParams, Link } from 'react-router-dom'
 import { ToggleTabs } from '../../components/ToggleTabs'
 import { SeccionFotos } from '../../components/SeccionFotos'
 import { SeccionProductosSalon } from '../../components/SeccionProductosSalon'
+import { FaCalendarPlus } from "react-icons/fa";
 import fotoIcon from '../../assets/icons/foto_perfil.png'
 
 export default function InfoSalon() {
-    const navigate = useNavigate();
     const { id } = useParams();
 
     // Obtener la información del salon
@@ -93,7 +93,14 @@ export default function InfoSalon() {
                     </div>
                 </section>
 
-                
+                {/**BOTÓN AGREGAR FOTO*/}
+                <div className="mt-7 flex justify-center mb-7">
+                    <Link to={`/solicitar-cita/${id}`} className="bg-stylegram-primary text-white shadow shadow-black px-6 py-2 rounded-lg flex items-center hover:bg-teal-700 cursor-pointer">
+                        <FaCalendarPlus className="w-5 h-5 mr-2"/>
+                        Solicitar cita
+                    </Link>
+        
+                </div>
         
                 <ToggleTabs nombreSeccion1={"Fotos"} nombreSeccion2={"Productos"} seccion1={<SeccionFotos/>} seccion2={<SeccionProductosSalon idSalon={id}/>}/>
                 </>
