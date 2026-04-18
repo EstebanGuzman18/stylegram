@@ -5,7 +5,7 @@ from salones.models import Salon
 class SalonesSerializer(serializers.ModelSerializer):
     class Meta:
         model = Salon
-        fields = ['id_salon', 'nombre_salon', 'foto_url', 'direccion', 'ciudad']
+        fields = ['id_salon', 'nombre_salon', 'foto_url', 'direccion', 'ciudad', 'opcion_compra', 'whatsapp']
 
 class ProductoSerializer(serializers.ModelSerializer):
     

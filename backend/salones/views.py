@@ -48,7 +48,7 @@ def registrar_salon(request):
             whatsapp = whatsapp,
             horario = horario,
             descripcion = descripcion,
-            servicios = servicios,
+            servicios = ",".join(servicios) if servicios else None,
             ciudad = ciudad,
             direccion = direccion,
             publico = publico,
@@ -113,7 +113,7 @@ def obtener_salon(request, salon_id):
         'opcion_compra': salon.opcion_compra,
         'horario': salon.horario_atencion,
         'descripcion': salon.descripcion,
-        'servicios': salon.servicios,
+        'servicios': salon.servicios.split(',') if salon.servicios else [],
         'foto_url': salon.foto_url
     })
     

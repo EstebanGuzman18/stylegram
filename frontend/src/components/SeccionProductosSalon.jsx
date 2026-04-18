@@ -1,13 +1,14 @@
 import { useState, useEffect } from "react"
 import { ItemCard } from "./ItemCard";
 
-{/**Este componente se usara en ToggleTabs será una seccion dinamica en la pagina "buscar"*/}
+//Este conponente se usara en ToggleTabs será una seccion dinamica en la pagina "InfoSalon"
+//obtiene todos los productos que tenga el salon y los muestra en forma de cards
 
-export function SeccionProductos({busqueda}) {
+export function SeccionProductosSalon({ idSalon }) {
     const [productos, setProductos] = useState([]);
     const buscarProductos = async () => {
         try {
-            const productos = await fetch(`http://127.0.0.1:8000/api/productos/buscar/?q=${busqueda}`);
+            const productos = await fetch(`http://127.0.0.1:8000/api/productos/${idSalon}/salon/`);
             const productosData = await productos.json();
             if (productos.ok) {
                 setProductos(productosData);
@@ -19,20 +20,17 @@ export function SeccionProductos({busqueda}) {
             console.error("Error al buscar salones:", error);
         }
     }
-        
+
     useEffect(() => {
-    if (busqueda.trim() !== "") {
         buscarProductos();
-    }
-    }, [busqueda]);
+    }, []);
     return (
          <>
             {productos.map((producto) => (
                 <ItemCard key={producto.id_producto} imagenItem={producto.foto_url} nombre={producto.nombre} descripcion={producto.vendedor.nombre_salon + " | Disponible: " + producto.cantidad} id={producto.id_producto} tipoElemento={"producto"}>
-                    $ {producto.precio}
+                    ${producto.precio}
                 </ItemCard>
             ))}
-
-        </>
+         </>
     )
 }

@@ -2,6 +2,7 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from .serializers import ProductoSerializer
 from productos.repositories.producto_repository import ProductoRepository
+from salones.repositories.salon_repository import SalonRepository
 
 # Create your views here.
 
@@ -15,13 +16,24 @@ def crear_producto(request):
         return Response(serializer.errors, status=400)
 
     data = serializer.validated_data
+    
+    vendedor_id = request.data.get('vendedor')
+
+    #  VALIDACIÓN id vendedor
+    if not vendedor_id:
+        return Response({'error': 'El campo vendedor es obligatorio'}, status=400)
+
+    vendedor = SalonRepository.obtener_por_id(vendedor_id)
+    
+    if not vendedor:
+        return Response({'error': 'El vendedor no existe'}, status=400)
 
     producto = ProductoRepository.crear_producto(
         nombre=data.get('nombre'),
         precio=data.get('precio'),
         descripcion=data.get('descripcion'),
         cantidad=data.get('cantidad'),
-        vendedor=data.get('vendedor').id_salon
+        vendedor=vendedor.id_salon
     )
 
     if not producto:
@@ -31,6 +43,19 @@ def crear_producto(request):
         'mensaje': 'Producto creado correctamente',
         'id': producto.id_producto
     }, status=201)
+    
+# Obtener producto por ID
+@api_view(['GET'])
+def obtener_producto(request, id_producto):
+
+    producto = ProductoRepository.obtener_por_id(id_producto)
+
+    if not producto:
+        return Response({'error': 'Producto no encontrado'}, status=404)
+
+    serializer = ProductoSerializer(producto)
+    return Response(serializer.data, status=200)
+
 
 
 #  Obtener productos de un salón

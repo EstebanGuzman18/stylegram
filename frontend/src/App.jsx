@@ -15,6 +15,8 @@ import LayoutCliente from './layouts/LayoutCliente'
 import ClienteHome from './pages/clientes/ClienteHome'
 import Buscar from './pages/clientes/Buscar'
 import SalonesFavoritos from './pages/clientes/SalonesFavoritos'
+import InfoSalon from './pages/clientes/InfoSalon'
+import InfoProducto from './pages/clientes/InfoProducto'
 
 
 const router = createBrowserRouter([
@@ -34,7 +36,9 @@ const router = createBrowserRouter([
   {element:<LayoutCliente/>, children:[
     {path:'/cliente-home', element:<ClienteHome/>, handle:{titulo:"Mis citas"}},
     {path:'/buscar', element:<Buscar/>, handle:{titulo:"Buscar"}},
-    {path:'/favoritos', element:<SalonesFavoritos/>, handle:{titulo:"Salones favoritos"}}
+    {path:'/favoritos', element:<SalonesFavoritos/>, handle:{titulo:"Salones favoritos"}},
+    {path:'/info-salon/:id', element:<InfoSalon/>, handle:{titulo:"Información del salón"}},
+    {path:'/info-producto/:id', element:<InfoProducto/>, handle:{titulo:"Información del producto"}}
   ]}
 ])
 

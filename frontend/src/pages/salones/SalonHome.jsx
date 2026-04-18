@@ -1,9 +1,12 @@
 import { ToggleTabs } from '../../components/ToggleTabs'
 import { SeccionFotos } from '../../components/SeccionFotos'
 import { SeccionResenas } from '../../components/SeccionResenas'
+import { useRef } from 'react'
+import imagenIcon from '../../assets/icons/imagen.png'
 import fotoIcon from '../../assets/icons/foto_perfil.png'
 
 export default function SalonHome() {
+    const inputRef = useRef()
     return (
         <>
         {/**FOTO + NOMBRE + ESTRELLAS*/}
@@ -52,6 +55,16 @@ export default function SalonHome() {
                 <p>Aqui ira el horario de atencion <br/> establecido por el estilista</p>
             </div>
         </section>
+
+        {/**BOTÓN AGREGAR FOTO*/}
+        <div className="mt-5 flex justify-center mb-5">
+            <button onClick={() => inputRef.current.click()} className="bg-stylegram-primary text-white shadow shadow-black px-6 py-2 rounded-lg flex items-center cursor-pointer">
+                <img src={imagenIcon} className="w-6 h-6 mr-2"/>
+                Agregar nueva
+            </button>
+            <input type="file" ref={inputRef} accept=".jpg,.jpeg,.png,.heic,.heif" className="hidden"/>
+
+        </div>
 
         <ToggleTabs nombreSeccion1={"Fotos"} nombreSeccion2={"Reseñas"} seccion1={<SeccionFotos/>} seccion2={<SeccionResenas/>}/>
         </>

@@ -29,7 +29,7 @@ export function SeccionSalones({busqueda}) {
     return (
         <>
             {salones.map((salon) => (
-                <ItemCard key={salon.id} imagenItem={salon.foto_url} nombre={salon.nombre_salon} descripcion={salon.ciudad + " | " + salon.direccion}>
+                <ItemCard key={salon.id} imagenItem={salon.foto_url} nombre={salon.nombre_salon} descripcion={salon.ciudad + " | " + salon.direccion} id={salon.id} tipoElemento={"salon"}>
                     Publico: {salon.publico}
                 </ItemCard>
             ))}

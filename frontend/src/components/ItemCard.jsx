@@ -1,18 +1,34 @@
 import { useEffect, useState } from "react";
 import imagenDefecto from "../assets/icons/foto_perfil.png";
+import { Link } from "react-router-dom";
 
 //este componente se usará para representar cada elemento del sistema ya sea salon, cita o producto
 //tiene una imagen, un nombre, una descripción y un espacio para botones de acción (children)
 
-export function ItemCard({ imagenItem, nombre, descripcion, children }) {
+export function ItemCard({ imagenItem, nombre, descripcion, id, tipoElemento, children }) {
     const [imagen, setImagen] = useState(imagenDefecto);
     useEffect(() => {
         if (imagenItem) {
             setImagen(imagenItem);
         }
     }, [imagenItem]);
+
+    const [paginaDestino, setPaginaDestino] = useState("#");
+    const determinarPaginaDestino = () => {
+        if (tipoElemento === "salon") {
+            setPaginaDestino(`/info-salon/${id}`);
+        }
+         else if (tipoElemento === "producto") {
+            setPaginaDestino(`/info-producto/${id}`);
+        }
+    };
+    useEffect(() => {
+        determinarPaginaDestino();
+    }, []);
+
+
     return (
-        <div className="flex items-center gap-4 p-2 mb-2 border rounded-xl shadow-sm bg-white">
+        <Link to={paginaDestino} className="flex items-center gap-4 p-2 mb-2 border rounded-xl shadow-sm bg-white cursor-default hover:bg-teal-50">
 
             {/*  Imagen */}
             <div className="w-20 h-20 flex shrink-0">
@@ -34,6 +50,6 @@ export function ItemCard({ imagenItem, nombre, descripcion, children }) {
                 {children}
             </div>
 
-        </div>
+        </Link>
     );
 }
