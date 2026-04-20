@@ -93,7 +93,7 @@ export default function InfoSalon() {
                     </div>
                 </section>
 
-                {/**BOTÓN AGREGAR FOTO*/}
+                {/**BOTÓN solicitar cita*/}
                 <div className="mt-7 flex justify-center mb-7">
                     <Link to={`/solicitar-cita/${id}`} className="bg-stylegram-primary text-white shadow shadow-black px-6 py-2 rounded-lg flex items-center hover:bg-teal-700 cursor-pointer">
                         <FaCalendarPlus className="w-5 h-5 mr-2"/>

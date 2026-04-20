@@ -58,8 +58,13 @@ def registrar_salon(request):
         if salon:
             return Response({'user': {
                 'id': salon.id_salon,
-                'nombre_salon' : salon.nombre_salon,
-                'nombre_estilista' : salon.nombre_estilista
+                'nombre_salon': salon.nombre_salon,
+                'nombre_estilista': salon.nombre_estilista,
+                'publico': salon.publico_objetivo,
+                'descripcion': salon.descripcion,
+                'servicios': salon.servicios.split(',') if salon.servicios else [],
+                'horario': salon.horario_atencion,
+                'foto_url': salon.foto_url
             }}, status=201)
         
         return Response({'error': 'No se pudo registrar el salon'}, status=500)
@@ -87,7 +92,13 @@ def login(request):
         # login exitoso
         return Response({'user': {
             'id': salon.id_salon,
-            'nombre': salon.nombre_salon,
+            'nombre_salon': salon.nombre_salon,
+            'nombre_estilista': salon.nombre_estilista,
+            'publico': salon.publico_objetivo,
+            'descripcion': salon.descripcion,
+            'servicios': salon.servicios.split(',') if salon.servicios else [],
+            'horario': salon.horario_atencion,
+            'foto_url': salon.foto_url
             }}, status=200)
     except Exception as e:
         return Response({'error': 'Error al procesar la solicitud'}, status=500)
