@@ -1,6 +1,12 @@
 from rest_framework import serializers
 from .models import Citas
 from salones.models import Salon
+from clientes.models import Cliente
+
+class clientesSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Cliente
+        fields = ['id_cliente', 'nombre', 'foto_url', 'ciudad']
 
 class SalonesSerializer(serializers.ModelSerializer):
     class Meta:
@@ -10,6 +16,7 @@ class SalonesSerializer(serializers.ModelSerializer):
 class CitaSerializer(serializers.ModelSerializer):
 
     salon = SalonesSerializer(read_only=True)
+    cliente = clientesSerializer(read_only=True)
 
     class Meta:
         model = Citas
