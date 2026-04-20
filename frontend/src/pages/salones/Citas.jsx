@@ -66,7 +66,7 @@ export default function Citas() {
     
             if (respuesta.ok) {
                 // quitar la cita del estado
-                setCitasPendientes(prev =>
+                setSolicitudes(prev =>
                     prev.filter(cita => cita.id_cita !== id)
                 );
             }
