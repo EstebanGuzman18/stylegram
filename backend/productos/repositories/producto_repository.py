@@ -51,3 +51,13 @@ class ProductoRepository:
 
         producto.save()
         return producto
+    
+    @staticmethod
+    def eliminar_producto(id_producto):
+        producto = ProductoRepository.obtener_por_id(id_producto)
+
+        if not producto:
+            return False
+
+        producto.delete()
+        return True

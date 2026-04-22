@@ -103,3 +103,19 @@ def actualizar_producto(request, id_producto):
     )
 
     return Response({'mensaje': 'Producto actualizado correctamente'}, status=200)
+
+# Eliminar producto
+@api_view(['DELETE'])
+def eliminar_producto(request, id_producto):
+
+    producto = ProductoRepository.obtener_por_id(id_producto)
+
+    if not producto:
+        return Response({'error': 'Producto no encontrado'}, status=404)
+
+    eliminado = ProductoRepository.eliminar_producto(id_producto)
+
+    if not eliminado:
+        return Response({'error': 'Error al eliminar el producto'}, status=500)
+
+    return Response({'mensaje': 'Producto eliminado correctamente'}, status=200)
