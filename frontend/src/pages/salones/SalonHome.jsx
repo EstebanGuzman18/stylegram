@@ -77,7 +77,9 @@ export default function SalonHome() {
         </section>
 
         {/**BOTÓN AGREGAR FOTO*/}
-        <div className="mt-7 flex justify-center mb-7">
+        {/**Se oculta el boton para añadir imagenes hasta que se desarrolle esta función*/}
+        {/**IMPORTANTE: cuando se quite el hidden debe incluirse el flex en el className*/}
+        <div className="hidden mt-7 justify-center mb-7">
             <button onClick={() => inputRef.current.click()} className="bg-stylegram-primary text-white shadow shadow-black px-6 py-2 rounded-lg flex items-center cursor-pointer">
                 <img src={imagenIcon} className="w-6 h-6 mr-2"/>
                 Agregar imagen a tu galeria
@@ -85,8 +87,9 @@ export default function SalonHome() {
             <input type="file" ref={inputRef} accept=".jpg,.jpeg,.png,.heic,.heif" className="hidden"/>
 
         </div>
-
-        <ToggleTabs nombreSeccion1={"Fotos"} nombreSeccion2={"Reseñas"} seccion1={<SeccionFotos/>} seccion2={<SeccionResenas/>}/>
+         
+        {/**Se oculta el componente ToogleTabs hasta que las funciones de Galeria y reseñas sean implementadas*/}
+        {/**<ToggleTabs nombreSeccion1={"Fotos"} nombreSeccion2={"Reseñas"} seccion1={<SeccionFotos/>} seccion2={<SeccionResenas/>}/>*/}
         </>
     )
 }

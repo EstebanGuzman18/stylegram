@@ -13,8 +13,11 @@ export default function LayoutSalon() {
     const matches = useMatches()
     const currentMatch = matches[matches.length -1]
     const titulo = currentMatch?.handle?.titulo
-    const anchoBoton = "w-1/5"
+    const anchoBoton = "w-1/3"
 
+    // Se oculta el botón de finanzas y programar pagos hasta que se desarrollen estas funciones
+    // IMPORTANTE: cuando se quite implementen se debe cambiar el ancho de los botones a "w-1/5"
+    // Importante: el botón de productos va despues de citas y antes de home
     return (
         <>
         <HeaderPrincipal titulo={titulo}/>
@@ -23,10 +26,10 @@ export default function LayoutSalon() {
         </main>
         <BarraNavegacion paddingSuperior="md:pt-55" estiloLogo="absolute h-40 w-40  xl:h-45 xl:w-45 top-7 xl:top-3 md:left-1/2 md:-translate-x-1/2 hidden md:block">
             <BotonNavegacion link="/citas" ancho={anchoBoton}  imagen={citasIcon} descripcionImagen="citas" titulo="Citas"/>
-            <BotonNavegacion link="/productos" ancho={anchoBoton}  imagen={productosIcon} descripcionImagen="productos" titulo="Productos"/>
             <BotonHome link="/salon-home" ancho={anchoBoton}  imagen={homeIcon} descripcionImagen="home" titulo="Inicio"/>
-            <BotonNavegacion link="/finanzas" ancho={anchoBoton} imagen={finanzasIcon} descripcionImagen="finanzas" titulo="Finanzas"/>
-            <BotonNavegacion link="/programar-pagos" ancho={anchoBoton} imagen={programarPagosIcon} descripcionImagen="recordar pagos" titulo="Recordar pagos"/>
+            <BotonNavegacion link="/productos" ancho={anchoBoton}  imagen={productosIcon} descripcionImagen="productos" titulo="Productos"/>
+            {/**<BotonNavegacion link="/finanzas" ancho={anchoBoton} imagen={finanzasIcon} descripcionImagen="finanzas" titulo="Finanzas"/>*/}
+            {/**<BotonNavegacion link="/programar-pagos" ancho={anchoBoton} imagen={programarPagosIcon} descripcionImagen="recordar pagos" titulo="Recordar pagos"/>*/}
         </BarraNavegacion>
         </>
     )

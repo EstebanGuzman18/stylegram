@@ -14,7 +14,9 @@ export function MenuDesplegable() {
         <img src={menuDesplegable} alt="Menú desplegable" onClick={()=>{setMenu(!menuAbierto)}} className="absolute h-18 w-17 -top-1 right-0 cursor-pointer"/>
         <div className={`fixed top-15 right-0 w-40 bg-stylegram-secondary text-stylegram-tertiary ${menuAbierto ? "shadow-2xl" : "shadow-0 translate-x-40 -translate-y-24"} transition-transform duration-500`}>
             <ul className="p-4 space-y-4 text-lg">
-                <li className="cursor-pointer hover:text-stylegram-primary border-y-2 border-stylegram-primary flex font-platypi"> 
+                {/**Se oculta la opción de editar hasta que se desarrolle esta función*/}
+                {/**IMPORTANTE: cuando se quite el hidden debe incluirse el flex en el className*/}
+                <li className="hidden cursor-pointer hover:text-stylegram-primary border-y-2 border-stylegram-primary font-platypi"> 
                     <img src={editarIcon} alt="Editar mi información" className="h-6 w-6 mr-2"/>
                     Editar
                 </li>
